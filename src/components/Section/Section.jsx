@@ -37,7 +37,8 @@ export default function Section(){
         setIsShown(true) 
         try {
             const recipeResponse = await getRecipeFromMistral(addIngredient)
-            setRecipe(<p>{recipeResponse}</p>) 
+            console.log("API Response:", recipeResponse);
+            setRecipe(recipeResponse[0].generated_text) 
         } catch (error) {
             console.error("Error fetching recipe:", error)
         }
@@ -59,8 +60,8 @@ export default function Section(){
 
         {addIngredient.length > 3 && <IngredientList onclick={handleRecipe}/>}
         </article>}
-        {/* {isShown === true && addIngredient.length > 3 && <Recommendations />} */}
-        {handleRecipe}
+        {isShown === true && addIngredient.length > 3 && <Recommendations recipeDetails={recipe}/>}
+        
         
         </main>
     )

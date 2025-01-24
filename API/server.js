@@ -3,8 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import axios from "axios";
 
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
+const apiKey = process.env.HUGGINGFACE_API_KEY;
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -22,23 +23,22 @@ app.post("/api/get-recipe", async (req, res) => {
         const response = await axios.post(
             "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1",
             {
-                messages: [
-                    { role: "system", content: "You are an AI chef that provides recipes..." },
-                    { role: "user", content: `I have ${ingredients.join(", ")}. What can I make?` }
-                ],
-                max_tokens: 1024,
+                inputs: `I have ${ingredients.join(", ")}. What can I make?`,
+                parameters: { max_tokens: 512 },
             },
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.HF_ACCESS_TOKEN}`,
+                    Authorization: `Bearer ${apiKey}`,
                     "Content-Type": "application/json",
                 },
             }
         );
 
-        res.json({ recipe: response.data.choices[0].message.content });
+        console.log("API Response:", response.data); // Inspect structure
+
+        res.json({ recipe: response.data });
     } catch (error) {
-        console.error("Error fetching recipe:", error);
+        console.error("Error fetching recipe:", error.response?.data || error.message);
         res.status(500).json({ error: "Failed to fetch recipe" });
     }
 });
