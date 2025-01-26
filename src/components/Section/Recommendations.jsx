@@ -1,4 +1,4 @@
-
+import ReactMarkdown from 'react-markdown'
 
 
 export default function Recommendations(props){
@@ -7,7 +7,7 @@ export default function Recommendations(props){
     return(
         <section className="suggested-recipe-container">
     <h2>Chef Claude Recommends:</h2>
-    {recipeDetails ? <p>{recipeDetails}</p> : <p>Fetching recipe...</p>}
+    {recipeDetails ? <ReactMarkdown>{recipeDetails}</ReactMarkdown> : <p>Fetching recipe...</p>}
     
 </section>
     )
