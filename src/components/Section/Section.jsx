@@ -38,7 +38,7 @@ export default function Section(){
         try {
             const recipeResponse = await getRecipeFromMistral(addIngredient)
             console.log("API Response:", recipeResponse);
-            setRecipe(recipeResponse[0].generated_text) 
+            setRecipe(recipeResponse[0].generated_text.trim()) 
         } catch (error) {
             console.error("Error fetching recipe:", error)
         }
