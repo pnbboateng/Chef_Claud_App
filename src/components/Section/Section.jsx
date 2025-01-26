@@ -59,8 +59,9 @@ export default function Section(){
         </ul>
 
         {addIngredient.length > 3 && <IngredientList onclick={handleRecipe}/>}
-        </article>}
         {isShown === true && addIngredient.length > 3 && <Recommendations recipeDetails={recipe}/>}
+        </article>}
+        
         
         
         </main>
